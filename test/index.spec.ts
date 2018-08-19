@@ -1,17 +1,19 @@
+import 'should';
+import * as path from 'path';
 import { 
     getJSONSchema,
     validateValueBySchema,
     testValue
 } from '../index';
-import 'should';
 
 describe('obj-ts-validator', function () {
+    const testSchemaFilePath = path.join(__dirname, './assets/test.d.ts');
 
     describe('getJSONSchema()', function () {
 
         it('runs without errors', function () {
 
-            return getJSONSchema('test')
+            return getJSONSchema(testSchemaFilePath)
                 .then(schema => {
                     console.log('%j', schema);
                     debugger;
@@ -37,9 +39,7 @@ describe('obj-ts-validator', function () {
         const testVal = {someNum: 10};
 
         it('runs without errors', function () {
-            const testSchemaName = 'test';
-
-            return testValue(testVal, testSchemaName, 'DateObj')
+            return testValue(testVal, testSchemaFilePath, 'DateObj')
                 .then(result => {
                     console.log('%j', result);
                     debugger;
@@ -47,9 +47,7 @@ describe('obj-ts-validator', function () {
         })
 
         it('validates a value', function(){
-            const testSchemaName = 'test';
-            
-            return testValue(testValue, testSchemaName, 'DateObj')
+            return testValue(testValue, testSchemaFilePath, 'DateObj')
                 .then(result => {
                     result.errors.length.should.be.above(0);
                 });
